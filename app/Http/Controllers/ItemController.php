@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use Intervention\Image\Facades\Image;
 use App\Http\Requests\StoreItemRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateItemRequest;
 
 class ItemController extends Controller
@@ -35,8 +37,11 @@ class ItemController extends Controller
         ]);
         if($request->file('image')){
             $file= $request->file('image');
+            // $image_resize = Image::make($file->getRealPath())->resize(300, 100);
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('/img'), $filename);
+            // $file->save('public/img' . $filename, 80);
+            // Storage::put('public/img/' . $filename, $image_resize);
             $item->image = $filename;
             $item->save();
         }

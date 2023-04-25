@@ -1,30 +1,30 @@
 <template>
-        <div class="max-w-sm rounded overflow-hidden shadow-lg">
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
 
-            <img class="w-full h-48" :src="image" alt="Product Image" />
+        <img class="w-full h-48" :src="image" alt="Product Image" />
 
-            <div class="px-6 py-4">
+        <div class="px-6 py-4">
 
-                <div class="font-bold text-xl mb-2">{{ name }}</div>
+            <div class="font-bold text-xl mb-2 overflow-hidden truncate ">{{ name }}</div>
 
-                <p class="text-gray-700 text-base mb-2">Kshs {{ price }}</p>
+            <p class="text-gray-700 text-base mb-2">Kshs {{ price }}</p>
 
-                <button @click="addToCart(name, price)"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
+            <button @click="addToCart(name, price)"
+                class="bg-gray-600 hover:bg-gray-800 text-white font-bold py-1 px-2 rounded">
 
-                    Add to Cart
+                Add to Cart
 
-                </button>
-                <button @click="$emit('deleteItem', id)"
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-2">
+            </button>
+            <button @click="$emit('deleteItem', id)"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-2">
 
-                    Delete
+                Delete
 
-                </button>
-
-            </div>
+            </button>
 
         </div>
+
+    </div>
 </template>
 <script>
 export default {
@@ -48,7 +48,7 @@ export default {
                     console.log(error)
                 })
         },
-      
+
     }
 };
 </script>

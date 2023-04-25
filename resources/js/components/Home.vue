@@ -10,7 +10,7 @@
             vel blandit nibh lobortis. Nulla facilisi. Nullam lobortis, mauris a semper consequat, neque massa venenatis
             felis, non tristique lacus sapien in mauris. Mauris eu feugiat justo.
           </p>
-          <router-link class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded" to="/shop">Shop now</router-link>
+          <router-link class="bg-gray-600 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded" to="/shop">Shop now</router-link>
         </div>
         <div class="w-full md:w-1/2">
           <img src="/img/decor1.jpg" alt="Decorating items" class="w-full h-auto">
