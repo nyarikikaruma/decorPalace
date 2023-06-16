@@ -2121,6 +2121,32 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     NavBar: _NavBar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Body: _Body_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      cartItems: [],
+      length: 0
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+    axios.get('http://127.0.0.1:8000/api/cart').then(function (response) {
+      _this.cartItems = response.data;
+      return _this.length = _this.cartItems.length;
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  },
+  methods: {
+    itemsLength: function itemsLength() {
+      var _this2 = this;
+      axios.get('http://127.0.0.1:8000/api/cart').then(function (response) {
+        _this2.cartItems = response.data;
+        return _this2.length = _this2.cartItems.length;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -2157,6 +2183,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    itemsLength: function itemsLength() {
+      this.$emit('itemsLength');
+    },
     deleteItems: function deleteItems(id) {
       var _this2 = this;
       axios["delete"]('http://127.0.0.1:8000/api/item/delete/' + id).then(function (response) {
@@ -2203,16 +2232,19 @@ __webpack_require__.r(__webpack_exports__);
     deleteItem: function deleteItem(id) {
       var _this = this;
       axios["delete"]('http://127.0.0.1:8000/api/cart/delete/' + id);
-      this.cartItems = [];
       this.totalCost = 0;
+      this.cartItems = null;
       axios.get('http://127.0.0.1:8000/api/cart').then(function (response) {
         _this.cartItems = response.data;
       });
+      this.$emit('itemsLength');
     }
   },
   mounted: function mounted() {
     var _this2 = this;
-    axios.get('http://127.0.0.1:8000/api/cart').then(function (response) {
+    axios.get('http://127.0.0.1:8000/api/cart')
+    // .then(response => response.json())
+    .then(function (response) {
       _this2.cartItems = response.data;
     })["catch"](function (error) {
       console.log(error);
@@ -2270,6 +2302,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+      this.$emit('itemsLength');
     }
   }
 });
@@ -2302,7 +2335,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    items: Number
+  }
+});
 
 /***/ }),
 
@@ -2456,7 +2493,15 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("NavBar"), _vm._v(" "), _c("router-view")], 1);
+  return _c("div", [_c("NavBar", {
+    attrs: {
+      items: _vm.length
+    }
+  }), _vm._v(" "), _c("router-view", {
+    on: {
+      itemsLength: _vm.itemsLength
+    }
+  })], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -2479,7 +2524,7 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("div", {
+  return _c("div", [!_vm.items.length == 0 ? _c("div", [_c("div", {
     staticClass: "flex flex-col md:flex-row"
   }, [_c("div", {
     staticClass: "w-full md:w-1/4 bg-gray-100 py-8 px-4"
@@ -2496,12 +2541,17 @@ var render = function render() {
         image: "/img/".concat(item.image)
       },
       on: {
+        itemsLength: _vm.itemsLength,
         deleteItem: _vm.deleteItems
       }
     })], 1);
   }), 0), _vm._v(" "), _c("div", {
     staticClass: "w-full md:w-1/4 bg-gray-200 py-8 px-4"
-  })])]);
+  })])]) : _c("div", {
+    staticClass: "grid h-screen place-items-center"
+  }, [_c("h2", {
+    staticClass: "text-xl"
+  }, [_vm._v("No Items found, check later")])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -2898,7 +2948,9 @@ var render = function render() {
       "stroke-linejoin": "round",
       d: "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
     }
-  })])]), _vm._v(" "), _c("router-link", {
+  })]), _vm._v(" "), _c("span", {
+    staticClass: "text-red-500"
+  }, [_vm._v(_vm._s(_vm.items))])]), _vm._v(" "), _c("router-link", {
     staticClass: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium",
     attrs: {
       to: "/login"

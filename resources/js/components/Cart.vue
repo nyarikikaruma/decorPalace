@@ -30,6 +30,7 @@
   
 <script>
 export default {
+
     data() {
         return {
             cartItems: [],
@@ -47,17 +48,19 @@ export default {
     methods: {
         deleteItem(id) {
             axios.delete('http://127.0.0.1:8000/api/cart/delete/' + id)
-            this.cartItems = []
-            this.totalCost =0
+            this.totalCost = 0
+            this.cartItems = null
             axios.get('http://127.0.0.1:8000/api/cart')
             .then(response => {
                 this.cartItems = response.data;
             })
+            this.$emit('itemsLength')
         },
     },
     mounted() {
         axios.get('http://127.0.0.1:8000/api/cart')
-                .then(response => {
+            // .then(response => response.json())
+            .then(response => {
                     this.cartItems = response.data;
                 })
                 .catch(error => {
